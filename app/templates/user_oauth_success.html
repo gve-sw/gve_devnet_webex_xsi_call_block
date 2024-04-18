@@ -1,0 +1,48 @@
+{% extends "layouts/masterPage.html" %}
+{% block content %}
+<div>
+    <h3>User login successful! Now sharing geolocation...</h3>
+    <button id="getLocationButton" style="background-color: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">Share Location</button>
+</div>
+<script>
+    // This script will run when the page is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        // This function will be called to get the location and send it to the server
+        var getLocation = function() {
+            // Check if the browser supports geolocation
+            if ("geolocation" in navigator) {
+                // Get the current position
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                    const lat = position.coords.latitude;   // Get the latitude
+                    const lon = position.coords.longitude;  // Get the longitude
+                    const currentTime = new Date().toLocaleTimeString();    // Get the current time
+                    const sessionToken = '{{ session_token }}'; // Use the session token from your backend
+
+                    // Send the location to the server
+                    const response = await fetch('/update-time-location-db', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ sessionToken, time: currentTime, latitude: lat, longitude: lon }),   // Send the time, latitude, and longitude
+                    });
+
+                    const data = await response.json();     // Get the response data
+                    console.log(data);  // Log the response data to the console
+                    console.log("Location shared successfully.");   // Log the success message to the console (for debugging purposes
+                }, (error) => {
+                    console.error("Error getting location:", error);    // Log the error to the console
+                });
+            } else {
+                console.error("Geolocation is not supported by this browser.");   // Log the error to the console
+            }
+        };
+
+        // Call getLocation immediately to start the process
+        getLocation();
+
+        // Then call getLocation every 30 sec (30,000 ms)
+        setInterval(getLocation, 30000);
+    });
+</script>
+{% endblock %}

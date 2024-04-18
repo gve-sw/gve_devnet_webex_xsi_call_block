@@ -1,0 +1,27 @@
+<!-- nav.html -->
+<nav class="header" id="styleguideheader" role="navigation">
+    <div class="container-fluid">
+        <div class="header-panels">
+            <!-- Cisco logo and title area (left) -->
+            <div class="header-panel">
+                <a class="header-bar__logo header__logo" href="https://gve-devnet.cisco.com/" target="_blank">
+                    <span id="header-logo" class="icon-cisco"></span>
+                </a>
+                <h1 class="header__title"><!--CUSTOMIZE: Add name of your PoV here--></h1>
+            </div>
+            <!-- Center area (middle) -->
+            <div class="header-panel header-panel--center">
+                <!-- Potential center content -->
+            </div>
+            <!-- Link area (right) -->
+            <div class="header-panel header-panel--right">
+                <!--CUSTOMIZE: Add or remove Header links-->
+                <!--PASS INFO: Header links are hidden, if hiddenLinks=false variable is passed to child template-->
+                <a class="header-item {% if hiddenLinks == True %}hidden-5xl-down{% endif %}" href="/"><span class="icon-home"></span></a>
+                <a class="header-item {% if hiddenLinks == True %}hidden-5xl-down{% endif %}" href="/"><!--CUSTOMIZE: Menu element name--></a>
+                <a class="header-item {% if hiddenLinks == True %}hidden-5xl-down{% endif %}" href="/">Logout</a>
+                <!--CUSTOMIZE END-->
+            </div>
+        </div>
+    </div>
+</nav>

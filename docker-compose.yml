@@ -1,0 +1,10 @@
+services:
+  gve_devnet_webex_xsi_call_block:
+    image: ghcr.io/gve-sw/gve_devnet_webex_xsi_call_block:latest
+    build: .
+    container_name: gve_devnet_webex_xsi_call_block
+    env_file:
+      - ./app/config/.env
+    volumes:
+      - .:/app
+    restart: "always"

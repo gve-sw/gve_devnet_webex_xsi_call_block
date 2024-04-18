@@ -1,0 +1,38 @@
+{% extends "layouts/masterPage.html" %}
+{% block content %}
+<!-- Admin-specific page content goes here -->
+<div class="container">
+    <h2>Admin Authentication Successful</h2>
+    <p>Welcome, Admin. You are now authenticated and can start call monitoring.</p>
+    <button id="startCallMonitoring" style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Start Call Monitoring</button>
+</div>
+
+
+<script>
+document.getElementById('startCallMonitoring').addEventListener('click', function() {
+    fetch('/start-call-monitoring', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include' // Necessary for cookies to be sent if using session authentication
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.redirect) {
+            // If a redirect URL is specified, redirect using GET
+            window.location.href = data.redirect;
+        } else if (data.message) {
+            // Handle other responses
+            document.getElementById('responseMessage').textContent = data.message;
+            alert("Response: " + JSON.stringify(data.message));
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+});
+
+</script>
+
+{% endblock %}
